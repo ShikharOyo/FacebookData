@@ -14,8 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.hackathon.Restfb.details.Details;
 import com.hackathon.Restfb.details.Details2;
+import com.hackathon.Restfb.details.Details3;
 import com.hackathon.Restfb.repository.FbRepo;
 import com.hackathon.Restfb.repository.FbRepo2;
+import com.hackathon.Restfb.repository.FbRepo3;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -37,6 +39,9 @@ public class Controller {
 	
 	@Autowired
 	private FbRepo2 repo2;
+	
+	@Autowired
+	private FbRepo3 repo3;
 	
 	List<String> places = new ArrayList<>();
 	
@@ -227,6 +232,7 @@ public class Controller {
 	{
 		List<String> numbers = new ArrayList<>();
 		
+		
 		//numbers from posts
 		for(Details2 det : repo2.findAll()) 
 		{
@@ -239,16 +245,16 @@ public class Controller {
 				String x=st.nextToken().toLowerCase();
 				
 				if(x.matches("\\d{10}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 				
 				else if(x.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 				
 				else if(x.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 				
 				else if(x.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 			}
 		}
 		
@@ -264,16 +270,16 @@ public class Controller {
 				String x=st.nextToken().toLowerCase();
 				
 				if(x.matches("\\d{10}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 				
 				else if(x.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 				
 				else if(x.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 				
 				else if(x.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
-					numbers.add(x);
+					repo3.save(new Details3(x));
 			}
 		}
 		return numbers;
