@@ -5,7 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +36,10 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 @RestController
+@Component
 public class Controller {
+	
+	private static final Logger log = LoggerFactory.getLogger(Controller.class);
 	
 	@Autowired
 	private FbRepo repo;
@@ -53,9 +60,9 @@ public class Controller {
 		places.add("indiranagar");
 	}
 	
-	@RequestMapping("/display")
+	@Scheduled(fixedRate = 50000)
 	public void display() {
-	FacebookClient facebookClient = new DefaultFacebookClient("EAAdxDjhAIPQBAG388fFBdozFBhcQbMkgysGbeEepNqH8uJ6jUMyftggdZAiptqtqokKH9KZAufJsc6ZCZAZCsUgKqZBoZAgvNKMyZA4F1z7kTRPGhFvNhMaZBOuZCYbyIAy7r1NLezIZBqXcFF9Y2I91Lt3UHbrmMkdMlVRwhlZCS0ZAmYYYH2ZByLxB1JfHDPDglPmHBnnf80SZCNDPAZDZD", Version.VERSION_2_10);
+	FacebookClient facebookClient = new DefaultFacebookClient("EAAdxDjhAIPQBAM8iLRY1Me8xvxJCteVLZCzrDBDZBZCjQluOVUtu8CbGMMmHRYEXBfKOAeX0oEUWAZAqKpfjrWffS6ZBE1ITeKTlySExWDKaCIwY5AVZAv8MuZBBpZAZAkNeta0TZBJugFinqN82JzdZBzb8AQQeigVwQAZD", Version.VERSION_2_10);
 	
 	User user = facebookClient.fetchObject("2147708062011647", User.class);
 	
@@ -69,7 +76,8 @@ public class Controller {
 	
 	Connection<Post> myFeed = facebookClient.fetchConnection("2147708062011647/feed", Post.class);
 	
-	
+	repo2.deleteAll();
+	repo.deleteAll();
 	
 	for (List<Post> myFeedPage : myFeed) {
 	  for (Post post : myFeedPage) {
